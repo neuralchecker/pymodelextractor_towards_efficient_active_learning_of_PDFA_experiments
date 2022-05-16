@@ -41,7 +41,7 @@ def generate_and_persist_random_PDFAs():
             for i in range(n):
                 dfa = nicaud_dfa_generator.generate_dfa(alphabet = constants.binaryAlphabet, nominal_size= size, seed = counter)
                 dfa.name = "random_PDFA_nominal_size_"+str(size)+"_"+str(counter)     
-                pdfa = pdfa_generator.pdfa_from_dfa(dfa,distributions= int(size/10), max_shift = 0.1)           
+                pdfa = pdfa_generator.pdfa_from_dfa(dfa,distributions= int(size/10), max_shift = 0.0001)           
                 pdfas.append(pdfa)
                 joblib.dump(pdfa, filename = path+dfa.name)
                 counter += 1    
