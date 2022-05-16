@@ -45,8 +45,8 @@ protobuf==3.19.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 Pygments==2.10.0
-pymodelextractor==0.10.1
-pythautomata==0.16.10
+pymodelextractor==0.13.4
+pythautomata==0.19.3
 python-dateutil==2.8.2
 pytz==2021.3
 pywin32==302
