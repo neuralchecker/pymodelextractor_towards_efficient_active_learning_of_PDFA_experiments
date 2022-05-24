@@ -3,6 +3,8 @@ from experiment_2 import experiment_2
 from experiment_3 import experiment_3
 from experiment_4 import experiment_4
 from experiment_5 import experiment_5
+from experiment_6 import experiment_6
+from experiment_7 import experiment_7
 
 
 import sys
@@ -25,3 +27,9 @@ if __name__ == '__main__':
         
     elif run_type == 5:
         experiment_5.run()  
+        
+    elif run_type == 6:
+        experiment_6.run() 
+        
+    elif run_type == 7:
+        experiment_7.run() 
