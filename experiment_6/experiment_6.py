@@ -57,7 +57,7 @@ def experiment_random_PDFAS():
     partitions = int(1/tolerance)
     tolerance_comparator = WFAToleranceComparator(tolerance)
     partition_comparator = WFAQuantizationComparator(partitions)
-    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('WLStarColLearner',PDFALStarColLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
+    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
     
     results = []   
     number_of_executions  = 10
