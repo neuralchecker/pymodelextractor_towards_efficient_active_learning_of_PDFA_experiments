@@ -41,8 +41,9 @@ def generate_and_persist_random_PDFAs():
             counter = 0
             for i in range(n):
                 dfa = nicaud_dfa_generator.generate_dfa(alphabet = constants.binaryAlphabet, nominal_size= size, seed = counter)
-                dfa.name = "random_PDFA_nominal_size_"+str(size)+"_"+str(counter)     
+                dfa.name = "random_PDFA_nominal_size_"+str(size)+"_"+str(dist)+"_"+str(counter)     
                 pdfa = pdfa_generator.pdfa_from_dfa(dfa, distributions= dist, max_shift = 0.0001)           
+                pdfa.name = dfa.name
                 pdfas.append(pdfa)
                 joblib.dump(pdfa, filename = path+dfa.name)
                 counter += 1    
@@ -58,7 +59,7 @@ def experiment_random_PDFAS():
     partitions = int(1/tolerance)
     tolerance_comparator = WFAToleranceComparator(tolerance)
     partition_comparator = WFAQuantizationComparator(partitions)
-    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('WLStarColLearner',PDFALStarColLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
+    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
     
     results = []   
     number_of_executions  = 10
