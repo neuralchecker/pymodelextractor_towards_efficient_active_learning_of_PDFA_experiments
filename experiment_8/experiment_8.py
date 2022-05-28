@@ -20,7 +20,7 @@ import joblib
 import os
 from tqdm import tqdm
 
-#Experiment to compare WLStar and QuaNT on pdfas with similar distributions
+#Experiment to compare WLStar and QuaNT on pdfas with similar distributions (same as exp 6 but with no noise)
 def generate_and_persist_random_PDFAs():
     path = './instances/exp8/'
     try: 
