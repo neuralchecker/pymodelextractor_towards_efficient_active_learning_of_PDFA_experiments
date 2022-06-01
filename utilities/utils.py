@@ -35,8 +35,9 @@ def load_pdfas(path):
     pdfas = []
     for file in dirs:
         print(file)
-        pdfa = joblib.load(path+file)
-        pdfas.append(pdfa)
+        if file != '.ipynb_checkpoints':
+            pdfa = joblib.load(path+file)
+            pdfas.append(pdfa)
     return pdfas
 
 def load_dfas(path):
