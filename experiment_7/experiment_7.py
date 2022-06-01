@@ -28,8 +28,10 @@ def generate_and_persist_random_PDFAs():
         if len(pdfas) == 0:
             assert(False)
         print('Instances succesfully loaded!')
-    except:
+    except Exception as e:
         print('Failed loading instances!')
+        print('Exception:')
+        print(e)
         print('Generating instances...')
         size = 200
         n_distributions = [10,8,6,4,2]
