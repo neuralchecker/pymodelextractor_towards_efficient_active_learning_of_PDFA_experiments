@@ -35,8 +35,8 @@ def generate_and_persist_random_PDFAs():
     except:
         print('Failed loading instances!')
         print('Generating instances...')
-        size = 200
-        n_distributions = [10,8,6,4,2]
+        size = 300
+        n_distributions = [16, 14, 12, 10, 8, 6, 4, 2]
         n=10
         counter = 0
         pdfas = []
