@@ -20,9 +20,13 @@ import joblib
 import os
 from tqdm import tqdm
 
-#Experiment to compare WLStar and QuaNT on pdfas with similar distributions
+#Experiment to compare WLStar and QuaNT on pdfas with similar distributions (same as exp 7 but with no noise)
 def generate_and_persist_random_PDFAs():
     path = './instances/exp5/'
+    try: 
+        os.mkdir(path) 
+    except OSError as error: 
+        print(error)  
     try:
         pdfas = utils.load_pdfas(path)
         if len(pdfas) == 0:
@@ -31,17 +35,19 @@ def generate_and_persist_random_PDFAs():
     except:
         print('Failed loading instances!')
         print('Generating instances...')
-        sizes = [100, 200, 300]
+        size = 300
+        n_distributions = [16, 14, 12, 10, 8, 6, 4, 2]
         n=10
         counter = 0
         pdfas = []
-        pbar = tqdm(total=n*len(sizes))
-        for size in sizes:
+        pbar = tqdm(total=n*len(n_distributions))
+        for dist in n_distributions:
             counter = 0
             for i in range(n):
                 dfa = nicaud_dfa_generator.generate_dfa(alphabet = constants.binaryAlphabet, nominal_size= size, seed = counter)
-                dfa.name = "random_PDFA_nominal_size_"+str(size)+"_"+str(counter)     
-                pdfa = pdfa_generator.pdfa_from_dfa(dfa,distributions= int(size/10), max_shift = 0.0001)           
+                dfa.name = "random_PDFA_nominal_size_"+str(size)+"_"+str(dist)+"_"+str(counter)     
+                pdfa = pdfa_generator.pdfa_from_dfa(dfa, distributions= dist, max_shift = 0)           
+                pdfa.name = dfa.name
                 pdfas.append(pdfa)
                 joblib.dump(pdfa, filename = path+dfa.name)
                 counter += 1    
@@ -57,7 +63,7 @@ def experiment_random_PDFAS():
     partitions = int(1/tolerance)
     tolerance_comparator = WFAToleranceComparator(tolerance)
     partition_comparator = WFAQuantizationComparator(partitions)
-    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('WLStarColLearner',PDFALStarColLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
+    algorithms = [('WLStarLearner',PDFALStarLearner, tolerance_comparator, tolerance), ('QuantNaryTreeLearner', PDFAQuantizationNAryTreeLearner, partition_comparator, partitions)]
     
     results = []   
     number_of_executions  = 10
@@ -91,6 +97,10 @@ def experiment_random_PDFAS():
                     results.append((algorithm_name, pdfa.name, len(pdfa.weighted_states), len(extracted_model.weighted_states), i, secs, result.info['last_token_weight_queries_count'], result.info['equivalence_queries_count'], ot_pref, ot_suff, tree_depth, inner_nodes ,log_probability_error, wer,ndcg, out_of_partition, out_of_tolerance, absolute_error_avg))
     pbar.close() 
     dfresults = pd.DataFrame(results, columns = ['Algorithm', 'Instance', 'Number of States', 'Extracted Number of States','RunNumber','Time (s)','LastTokenQuery', 'EquivalenceQuery', 'OT Prefixes', 'OT Suffixes', 'Tree Depth', 'Inner Nodes','LogProbError','WER','NDCG','OOPartition','OOTolerance', 'AbsoluteError']) 
+    try: 
+        os.mkdir('./experiment_5/results') 
+    except OSError as error: 
+        print(error)  
     dfresults.to_csv('./experiment_5/results/results_'+datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S")+'.csv') 
 
 def run():
